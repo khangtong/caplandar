@@ -17,21 +17,23 @@ export default function Blacklist({ active, token, query }: BlacklistProps) {
 
   useEffect(() => {
     async function fetchUsersAndBlockedUsers() {
-      await axios
-        .get(
-          `http://localhost:8080/api/users/search?usernameOrEmail=${query}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        )
-        .then((res) => {
-          setUsers(res.data.data);
-        })
-        .catch((err) => {
-          console.log(err.response.data.message);
-        });
+      if (query !== '') {
+        await axios
+          .get(
+            `http://localhost:8080/api/users/search?usernameOrEmail=${query}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          )
+          .then((res) => {
+            setUsers(res.data.data);
+          })
+          .catch((err) => {
+            console.log(err.response.data.message);
+          });
+      }
 
       await axios
         .get(`http://localhost:8080/api/blacklists`, {
@@ -59,6 +61,9 @@ export default function Blacklist({ active, token, query }: BlacklistProps) {
       style={{ maxHeight: 'calc(100vh - 151.2px)' }}
     >
       <span className="text-2xl font-medium">Blacklist</span>
+      <span className="block text-sm text-gray-500">
+        Blocked users can not search and invite you to their schedules.
+      </span>
       <div className="mt-3 flex items-center justify-between gap-2">
         <Search placeholder="Search users..." />
       </div>
@@ -66,6 +71,7 @@ export default function Blacklist({ active, token, query }: BlacklistProps) {
         users={users}
         blacklist={blacklist}
         blockedUsers={blockedUsers}
+        query={query}
       />
     </main>
   );

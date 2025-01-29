@@ -49,6 +49,7 @@ export default {
         '4.5': '1.125rem',
         '3.25': '0.8125rem',
         '100': '25rem',
+        '19': '4.525rem',
       },
       gridTemplateRows: {
         calendar: 'repeat(6, calc((100vh - 50px) / 6))',

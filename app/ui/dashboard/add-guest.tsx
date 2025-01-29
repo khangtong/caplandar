@@ -44,7 +44,7 @@ export default function AddGuest({
           <i className="fa-solid fa-magnifying-glass"></i>
         </button>
       </form>
-      <div className="max-h-80 overflow-y-scroll flex flex-col">
+      <div className="max-h-80 overflow-y-auto flex flex-col">
         {state?.data ? (
           state.data.map((guest: any) => (
             <div

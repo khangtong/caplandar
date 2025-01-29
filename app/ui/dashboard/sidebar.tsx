@@ -40,7 +40,7 @@ export default function Sidebar({
         openAddScheduleForm={openAddScheduleForm}
         categories={categories}
       />
-      <div className="sidebar fixed h-screen w-64 border-r-0.16 border-solid border-hair-line bg-neutral-900 transition-all duration-500 text-white px-2 pt-2 overflow-y-scroll">
+      <div className="sidebar fixed h-screen w-64 border-r-0.16 border-solid border-hair-line bg-neutral-900 transition-all duration-500 text-white px-2 pt-2 overflow-y-auto">
         <Account userData={userData} />
         <button
           className="add-schedule-open-btn w-full py-2 border-none rounded-lg font-bold tracking-widest bg-brand/40 uppercase text-brand transition-all duration-250 text-sm relative outline-2 outline outline-brand mb-2 hover:text-neutral-800 hover:bg-brand hover:outline-none"

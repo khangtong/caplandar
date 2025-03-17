@@ -2,9 +2,11 @@
 
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+import { cookies } from 'next/headers';
+import axios from 'axios';
+
 import {
   LoginFormSchema,
-  FormState,
   ScheduleFormSchema,
   AddGuestFormSchema,
   AddCategoryFormSchema,
@@ -13,11 +15,9 @@ import {
   EditProfileFormSchema,
   ChangePasswordFormSchema,
 } from './definitions';
-import axios from 'axios';
-import { cookies } from 'next/headers';
 import calculateNoti from './calculateNoti';
 
-export async function login(state: FormState, formData: FormData) {
+export async function login(state: any, formData: FormData) {
   // 1. Validate form fields
   const validatedFields = LoginFormSchema.safeParse({
     email: formData.get('email'),
@@ -34,32 +34,37 @@ export async function login(state: FormState, formData: FormData) {
   // 2. Sign in
   const input = validatedFields.data;
 
-  await axios
-    .post(`${process.env.API_URL}/users/signin`, JSON.stringify(input), {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-    .then(async function (response) {
-      if (response.status == 200) {
-        // 3. Create session
-        const expiresAt = Date.now() + 30 * 24 * 60 * 60 * 1000;
-        (await cookies()).set('session', response.data.token, {
-          httpOnly: true,
-          secure: true,
-          expires: expiresAt,
-          sameSite: 'lax',
-          path: '/',
-        });
+  try {
+    const response = await axios.post(
+      `${process.env.API_URL}/users/signin`,
+      JSON.stringify(input),
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
       }
-    })
-    .catch(function (error) {
-      console.error(error);
-    });
+    );
 
-  // 4. Redirect to dashboard
-  revalidatePath('/dashboard');
-  redirect('/dashboard');
+    if (response.status == 200) {
+      const expiresAt = Date.now() + 30 * 24 * 60 * 60 * 1000;
+
+      (await cookies()).set('session', response.data.token, {
+        httpOnly: true,
+        secure: true,
+        expires: expiresAt,
+        sameSite: 'lax',
+        path: '/',
+      });
+
+      return {
+        success: true,
+      };
+    }
+  } catch (error: any) {
+    return {
+      message: error?.response?.data?.message,
+    };
+  }
 }
 
 export async function logout() {
@@ -115,6 +120,10 @@ export async function addSchedule(state: any, formData: FormData) {
         Authorization: `Bearer ${token}`,
       },
     });
+
+    return {
+      success: true,
+    };
   } catch (error: any) {
     console.error(
       `ERROR (${error.response?.status}): ${error.response?.data?.message}`
@@ -175,6 +184,10 @@ export async function updateSchedule(state: any, formData: FormData) {
         Authorization: `Bearer ${token}`,
       },
     });
+
+    return {
+      success: true,
+    };
   } catch (error: any) {
     console.error(
       `ERROR (${error.response?.status}): ${error.response?.data?.message}`
@@ -276,6 +289,10 @@ export async function addCategory(state: any, formData: FormData) {
         Authorization: `Bearer ${token}`,
       },
     });
+
+    return {
+      success: true,
+    };
   } catch (error: any) {
     console.error(
       `ERROR (${error.response?.status}): ${error.response?.data?.message}`
@@ -314,6 +331,10 @@ export async function updateCategory(state: any, formData: FormData) {
         Authorization: `Bearer ${token}`,
       },
     });
+
+    return {
+      success: true,
+    };
   } catch (error: any) {
     console.error(
       `ERROR (${error.response?.status}): ${error.response?.data?.message}`
@@ -415,6 +436,10 @@ export async function updateProfile(state: any, formData: FormData) {
         Authorization: `Bearer ${token}`,
       },
     });
+
+    return {
+      success: true,
+    };
   } catch (error: any) {
     console.error(
       `ERROR (${error.response?.status}): ${error.response?.data?.message}`

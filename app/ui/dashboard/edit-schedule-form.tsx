@@ -1,6 +1,8 @@
-import { useActionState, useState } from 'react';
+import { useActionState, useState, useEffect } from 'react';
 import clsx from 'clsx';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 import DatePicker from '../datepicker';
 import CategorySelectionBox from '../categorySelectionBox';
@@ -35,6 +37,7 @@ export default function EditScheduleForm({
   const [guests, setGuests] = useState(
     convertStringToObjectArray(scheduleState.guests) || []
   );
+  const router = useRouter();
 
   function parseNotificationTime(schedule: any): number {
     let notiDate = schedule.noti;
@@ -79,6 +82,43 @@ export default function EditScheduleForm({
       prevGuests.filter((guest: any) => guest.id !== guestId)
     );
   }
+
+  function handleDeleteSchedule(id: number, name: string) {
+    deleteSchedule(id);
+
+    const myPromise = new Promise<{ name: string }>((resolve) => {
+      setTimeout(() => {
+        resolve({ name });
+      }, 1500);
+    });
+
+    toast.promise(myPromise, {
+      loading: 'Loading...',
+      success: (data: { name: string }) => {
+        router.refresh();
+        return `${data.name} has been deleted!`;
+      },
+      error: 'Error',
+    });
+  }
+
+  useEffect(() => {
+    if (isPending) {
+      const toastId = toast.loading('Loading...');
+      setTimeout(() => {
+        toast.dismiss(toastId);
+      }, 1000);
+    } else {
+      if (state !== undefined) {
+        if (state?.errors) {
+          toast.error(state?.message || `Failed to update schedule`);
+        } else {
+          toast.success(`Schedule has been updated!`);
+          router.refresh();
+        }
+      }
+    }
+  }, [isPending, state]);
 
   return (
     <div>
@@ -286,7 +326,7 @@ export default function EditScheduleForm({
           <button
             disabled={isPending}
             className="delete-schedule-btn rounded-lg p-2 font-bold capitalize w-full border-none text-gray-100 bg-red-500 duration-200"
-            onClick={() => deleteSchedule(schedule.id)}
+            onClick={() => handleDeleteSchedule(schedule.id, schedule.title)}
           >
             delete
           </button>

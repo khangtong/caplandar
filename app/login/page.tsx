@@ -1,12 +1,35 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import Image from "next/image";
-import { login } from "../lib/actions";
-import { useActionState } from "react";
+import Link from 'next/link';
+import Image from 'next/image';
+import { useActionState, useEffect } from 'react';
+import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
+
+import { login } from '../lib/actions';
 
 export default function Login() {
   const [state, action, isPending] = useActionState(login, undefined);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (isPending) {
+      const toastId = toast.loading('Loading...');
+      setTimeout(() => {
+        toast.dismiss(toastId);
+      }, 1000);
+    } else {
+      if (state !== undefined) {
+        if (state?.errors || state?.message) {
+          toast.error(state.message);
+        }
+
+        if (state?.success) {
+          router.push('/');
+        }
+      }
+    }
+  }, [isPending, state]);
 
   return (
     <main id="main" className="h-screen flex">

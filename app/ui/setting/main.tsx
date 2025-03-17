@@ -27,53 +27,73 @@ export default function Main({ token, user, query }: MainSettingProps) {
   return (
     <div className="flex">
       <div
-        className="fixed flex flex-col justify-between w-64 p-6 bg-brand"
+        className="fixed flex flex-col justify-between w-64 p-6 border-r-2 border-hair-line"
         style={{ height: '-webkit-fill-available' }}
       >
         <div>
           <div
             onClick={(e) => handleNavigation(e)}
-            className={`py-1 px-3 rounded duration-200 cursor-pointer text-neutral-100 hover:bg-neutral-700/75 ${
-              active === 'profile' && 'bg-neutral-800'
+            className={`py-1 px-3 rounded duration-200 cursor-pointer text-neutral-900 hover:bg-neutral-100/50 ${
+              active === 'profile' && 'bg-neutral-100 font-bold'
             }`}
           >
-            <i className="fa-regular fa-user mr-2"></i>
+            <i
+              className={`fa-${
+                active === 'profile' ? 'solid' : 'regular'
+              } fa-user mr-2`}
+            ></i>
             Profile
           </div>
           <div
             onClick={(e) => handleNavigation(e)}
-            className={`py-1 px-3 rounded duration-200 cursor-pointer text-neutral-100 hover:bg-neutral-700/75 ${
-              active === 'password' && 'bg-neutral-800'
+            className={`py-1 px-3 rounded duration-200 cursor-pointer text-neutral-900 hover:bg-neutral-100/50 ${
+              active === 'password' && 'bg-neutral-100 font-bold'
             }`}
           >
-            <i className="fa-regular fa-lock mr-2"></i>
+            <i
+              className={`fa-${
+                active === 'password' ? 'solid' : 'regular'
+              } fa-lock mr-2`}
+            ></i>
             Password
           </div>
           <div
             onClick={(e) => handleNavigation(e)}
-            className={`py-1 pl-2.5 pr-3 rounded duration-200 cursor-pointer text-neutral-100 hover:bg-neutral-700/75 ${
-              active === 'display' && 'bg-neutral-800'
+            className={`py-1 pl-2.5 pr-3 rounded duration-200 cursor-pointer text-neutral-900 hover:bg-neutral-100/50 ${
+              active === 'display' && 'bg-neutral-100 font-bold'
             }`}
           >
-            <i className="fa-regular fa-display mr-2"></i>
+            <i
+              className={`fa-${
+                active === 'display' ? 'solid' : 'regular'
+              } fa-display mr-2`}
+            ></i>
             Display
           </div>
           <div
             onClick={(e) => handleNavigation(e)}
-            className={`py-1 px-3 rounded duration-200 cursor-pointer text-neutral-100 hover:bg-neutral-700/75 ${
-              active === 'notification' && 'bg-neutral-800'
+            className={`py-1 px-3 rounded duration-200 cursor-pointer text-neutral-900 hover:bg-neutral-100/50 ${
+              active === 'notification' && 'bg-neutral-100 font-bold'
             }`}
           >
-            <i className="fa-regular fa-bell mr-2"></i>
+            <i
+              className={`fa-${
+                active === 'notification' ? 'solid' : 'regular'
+              } fa-bell mr-2`}
+            ></i>
             Notification
           </div>
           <div
             onClick={(e) => handleNavigation(e)}
-            className={`py-1 pl-2.5 pr-3 rounded duration-200 cursor-pointer text-neutral-100 hover:bg-neutral-700/75 ${
-              active === 'blacklist' && 'bg-neutral-800'
+            className={`py-1 pl-2.5 pr-3 rounded duration-200 cursor-pointer text-neutral-900 hover:bg-neutral-100/50 ${
+              active === 'blacklist' && 'bg-neutral-100 font-bold'
             }`}
           >
-            <i className="fa-regular fa-ban mr-2"></i>
+            <i
+              className={`fa-${
+                active === 'blacklist' ? 'solid' : 'regular'
+              } fa-ban mr-2`}
+            ></i>
             Blacklist
           </div>
         </div>

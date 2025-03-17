@@ -35,8 +35,10 @@ export async function fetchCategory(
       },
     });
     categories = response.data.data;
-  } catch (error) {
-    throw new Error('Failed to fetch categories.');
+  } catch (error: any) {
+    if (error.status === 404) {
+      categories = [];
+    } else throw new Error('Failed to fetch categories.');
   }
 
   return categories;

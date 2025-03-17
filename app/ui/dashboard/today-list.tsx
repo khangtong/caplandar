@@ -11,7 +11,7 @@ export default function TodayList({ todayList }: { todayList: any[] }) {
     <div className="mb-1">
       <div className={`${clsx(todayList.length > 0 && 'hidden')}`}>
         <Image
-          src="/img/beam-man-taking-a-bath-and-reading.png"
+          src="/img/todaylist.png"
           height={50}
           width={200}
           alt="No schedules today"

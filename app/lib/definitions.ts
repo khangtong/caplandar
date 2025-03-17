@@ -116,16 +116,6 @@ export const ChangePasswordFormSchema = z
     path: ['confirmPassword'],
   });
 
-export type FormState =
-  | {
-      errors?: {
-        email?: string[];
-        password?: string[];
-      };
-      message?: string;
-    }
-  | undefined;
-
 export type User =
   | {
       id: string;

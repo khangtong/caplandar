@@ -1,23 +1,26 @@
-import { useActionState, useState } from 'react';
+import { useActionState, useState, useEffect } from 'react';
 import clsx from 'clsx';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 import DatePicker from '../datepicker';
 import CategorySelectionBox from '../categorySelectionBox';
 import { addSchedule } from '@/app/lib/actions';
 import AddGuest from './add-guest';
-import { CategoryType } from '@/app/lib/definitions';
+import { Category } from '@/app/lib/definitions';
 
 export default function AddScheduleForm({
   openAddScheduleForm,
   categories,
 }: {
   openAddScheduleForm: boolean;
-  categories: CategoryType[];
+  categories: Category[];
 }) {
   const [state, action, isPending] = useActionState(addSchedule, undefined);
   const [openAddGuest, setOpen] = useState(false);
   const [guests, setGuests] = useState([]);
+  const router = useRouter();
 
   function addGuests(newGuest: any) {
     setGuests((prevGuests: any) => {
@@ -33,6 +36,24 @@ export default function AddScheduleForm({
       prevGuests.filter((guest: any) => guest.id !== guestId)
     );
   }
+
+  useEffect(() => {
+    if (isPending) {
+      const toastId = toast.loading('Loading...');
+      setTimeout(() => {
+        toast.dismiss(toastId);
+      }, 1000);
+    } else {
+      if (state !== undefined) {
+        if (state?.errors) {
+          toast.error(state?.message || `Failed to add schedule`);
+        } else {
+          toast.success(`Schedule has been added!`);
+          router.refresh();
+        }
+      }
+    }
+  }, [isPending, state]);
 
   return (
     <div>

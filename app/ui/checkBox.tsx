@@ -30,7 +30,7 @@ const Checkbox: React.FC<CheckboxProps> = ({ id, color, schedules }) => {
           <label htmlFor={id} />
           <svg
             fill="none"
-            filter="invert(0%) sepia(100%) saturate(100%) hue-rotate(331deg) brightness(0) contrast(114%)"
+            filter="brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(7485%) hue-rotate(200deg) brightness(109%) contrast(104%)"
             viewBox="0 0 15 14"
             height={7}
             width={8}

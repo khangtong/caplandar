@@ -1,6 +1,7 @@
 'use client';
 
 import { use, useState } from 'react';
+import { toast } from 'sonner';
 
 import Sidebar from '../ui/dashboard/sidebar';
 import SwitchView from '../ui/dashboard/switch-view';
@@ -24,6 +25,10 @@ export default function Dashboard({
   const userData = use(user);
   const categoryData = use(categories);
   const todayListData = use(todayList);
+
+  if (!categoryData.length) {
+    toast.error('You have no categories. Create one to get started.');
+  }
 
   const [month, setMonth] = useState(new Date().getMonth() + 1);
   const [year, setYear] = useState(new Date().getFullYear());

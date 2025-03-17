@@ -1,12 +1,15 @@
-import { addCategory, updateCategory } from '@/app/lib/actions';
-import { CategoryType } from '@/app/lib/definitions';
 import { useActionState } from 'react';
 import { useState, useEffect } from 'react';
+import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
+
+import { addCategory, updateCategory } from '@/app/lib/actions';
+import { Category } from '@/app/lib/definitions';
 
 interface CategoryFormProps {
   openCategory: boolean;
   editCategory: boolean;
-  category: CategoryType;
+  category: Category;
 }
 
 export default function CategoryForm({
@@ -22,6 +25,7 @@ export default function CategoryForm({
     editCategory ? category?.color : '#b591ef'
   );
   const [id, setId] = useState(editCategory ? category?.id : 0);
+  const router = useRouter();
 
   useEffect(() => {
     if (editCategory && category?.color) {
@@ -32,6 +36,29 @@ export default function CategoryForm({
       setId(category?.id);
     }
   }, [editCategory, category?.color, category?.id]);
+
+  useEffect(() => {
+    if (isPending) {
+      const toastId = toast.loading('Loading...');
+      setTimeout(() => {
+        toast.dismiss(toastId);
+      }, 1000);
+    } else {
+      if (state !== undefined) {
+        if (state?.errors) {
+          toast.error(
+            state?.message ||
+              `Failed to ${editCategory ? 'update' : 'add'} category`
+          );
+        } else {
+          toast.success(
+            `Category has been ${editCategory ? 'updated' : 'added'}!`
+          );
+          router.refresh();
+        }
+      }
+    }
+  }, [isPending, state]);
 
   return (
     <form

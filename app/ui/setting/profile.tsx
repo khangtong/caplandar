@@ -1,7 +1,10 @@
+import Image from 'next/image';
+import { useActionState, useState, useEffect } from 'react';
+import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
+
 import { updateProfile } from '@/app/lib/actions';
 import { User } from '@/app/lib/definitions';
-import Image from 'next/image';
-import { useActionState, useState } from 'react';
 
 interface ProfileProps {
   active: string;
@@ -13,6 +16,7 @@ export default function Profile({ active, user }: ProfileProps) {
   const [username, setUsername] = useState(user?.username || '');
   const [email, setEmail] = useState(user?.email || '');
   const [state, action, isPending] = useActionState(updateProfile, undefined);
+  const router = useRouter();
 
   function handleChangeAvatar(e: any) {
     const fileReader = new FileReader();
@@ -21,6 +25,24 @@ export default function Profile({ active, user }: ProfileProps) {
       setAvatar((event?.target?.result || avatar) as string);
     };
   }
+
+  useEffect(() => {
+    if (isPending) {
+      const toastId = toast.loading('Loading...');
+      setTimeout(() => {
+        toast.dismiss(toastId);
+      }, 1000);
+    } else {
+      if (state !== undefined) {
+        if (state?.errors) {
+          toast.error(state?.message || `Failed to update profile`);
+        } else {
+          toast.success(`Profile has been updated!`);
+          router.refresh();
+        }
+      }
+    }
+  }, [isPending, state]);
 
   return (
     <form

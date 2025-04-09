@@ -45,19 +45,19 @@ export default function AddGuest({
         </button>
       </form>
       <div className="max-h-80 overflow-y-auto flex flex-col">
-        {state?.data ? (
+        {state?.data?.length ? (
           state.data.map((guest: any) => (
             <div
               key={guest.id}
               onClick={() => select(guest)}
-              className="flex items-center gap-2 rounded-lg mt-3 p-2 text-sm bg-neutral-100 cursor-pointer duration-200 hover:bg-neutral-200"
+              className="flex items-center gap-4 rounded-lg mt-3 p-2 text-sm bg-neutral-100 cursor-pointer duration-200 hover:bg-neutral-200"
             >
               <Image
                 src={guest.avatar || '/img/default.jpg'}
-                height={24}
-                width={24}
+                height={28}
+                width={28}
                 alt="user"
-                className="rounded-full"
+                className="rounded-full ml-2 border border-neutral-300"
               />
               <div className="flex flex-col">
                 <span className="font-bold">{guest.username}</span>

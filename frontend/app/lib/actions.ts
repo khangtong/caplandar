@@ -249,7 +249,6 @@ export async function addGuest(state: any, formData: FormData) {
       }
     );
     if (response.status === 200) {
-      revalidatePath('/dashboard');
       return { data: response.data.data };
     }
   } catch (error: any) {

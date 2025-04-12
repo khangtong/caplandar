@@ -1,4 +1,4 @@
-# Caplendar - Smart Calendar Management System
+# Caplandar - Smart Calendar Management System
 
 A modern calendar application built with Next.js, TailwindCSS, Spring Boot, and MySQL. Manage schedules, set reminders, and organize events effortlessly.
 

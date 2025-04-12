@@ -27,6 +27,7 @@ A modern calendar application built with Next.js, TailwindCSS, Spring Boot, and 
   - Today's schedule preview
   - Category-based event organization
   - Quick-add functionality
+- **Notify schedules by sending emails**
 
 ## 🛠 Tech Stack
 
@@ -75,4 +76,17 @@ A modern calendar application built with Next.js, TailwindCSS, Spring Boot, and 
 ```bash
 git clone https://github.com/khangtong/caplandar.git
 cd caplandar
+```
+
+2. **Backend Setup (IntelliJ IDEA)**
+
+- Install dependencies
+- Run the backend application
+
+3. **Frontend Setup**
+
+```bash
+cd frontend
+npm install
+npm run dev
 ```

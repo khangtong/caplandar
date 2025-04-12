@@ -33,9 +33,7 @@ A modern calendar application built with Next.js, TailwindCSS, Spring Boot, and 
 **Frontend**:
 
 - Next.js 15 (App Router)
-- TailwindCSS + DaisyUI
-- React Icons
-- Date-fns for date handling
+- TailwindCSS + shadcn/UI
 
 **Backend**:
 
